@@ -24,23 +24,23 @@ export class Country {
   population: number;
 
   @Column({ name: 'currency_code', nullable: true })
-  currencyCode: string;
+  currency_code: string;
 
-  @Column({ name: 'exchange_rate', type: 'decimal', precision: 15, scale: 6, nullable: true })
-  exchangeRate: number;
+  @Column({ name: 'exchange_rate', type: 'decimal', precision: 10, scale: 4, nullable: true })
+  exchange_rate: number;
 
   @Column({ name: 'estimated_gdp', type: 'decimal', precision: 20, scale: 2, nullable: true })
-  estimatedGdp: number;
+  estimated_gdp: number;
 
   @Column({ name: 'flag_url', nullable: true })
-  flagUrl: string;
+  flag_url: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updated_at: Date;
 
   @Column({ name: 'last_refreshed_at', type: 'timestamp' })
-  lastRefreshedAt: Date;
+  last_refreshed_at: Date;
 }

@@ -19,17 +19,17 @@ export class CreateCountryDto {
 
   @IsNotEmpty()
   @IsString()
-  currencyCode: string;
+  currency_code: string;
 
   @IsOptional()
   @IsNumber()
-  exchangeRate?: number;
+  exchange_rate?: number;
 
   @IsOptional()
   @IsNumber()
-  estimatedGdp?: number;
+  estimated_gdp?: number;
 
   @IsOptional()
   @IsString()
-  flagUrl?: string;
+  flag_url?: string;
 }

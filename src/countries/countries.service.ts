@@ -73,10 +73,10 @@ export class CountriesService {
                     capital: countryData.capital,
                     region: countryData.region,
                     population: countryData.population,
-                    currencyCode: currencyCode!,
-                    exchangeRate: exchangeRate!,
-                    estimatedGdp: estimatedGdp!,
-                    flagUrl: countryData.flag,
+                    currency_code: currencyCode!,
+                    exchange_rate: exchangeRate!,
+                    estimated_gdp: estimatedGdp!,
+                    flag_url: countryData.flag,
                 }
 
                 // Check if country exists
@@ -87,12 +87,12 @@ export class CountriesService {
                 if(existingCountry){
                     await this.countriesRepository.update(existingCountry.id, {
                         ...countryDto,
-                        lastRefreshedAt: new Date()
+                        last_refreshed_at: new Date()
                     })
                 }else {
                     const newCountry = this.countriesRepository.create({
                         ...countryDto,
-                        lastRefreshedAt: new Date()
+                        last_refreshed_at: new Date()
                     });
                     await this.countriesRepository.save(newCountry)
                 }
@@ -209,13 +209,13 @@ export class CountriesService {
     
     // Get the most recent last_refreshed_at from any country
     const mostRecentCountry = await this.countriesRepository.findOne({
-      where: { lastRefreshedAt: Not(IsNull()) },
-      order: { lastRefreshedAt: 'DESC' },
+      where: { last_refreshed_at: Not(IsNull()) },
+      order: { last_refreshed_at: 'DESC' },
     });
 
     return {
       total_countries: totalCountries,
-      last_refreshed_at: mostRecentCountry?.lastRefreshedAt || null,
+      last_refreshed_at: mostRecentCountry?.last_refreshed_at || null,
     };
   }
 
@@ -234,8 +234,8 @@ export class CountriesService {
     try {
       // Get top 5 countries by GDP
       const topCountries = await this.countriesRepository.find({
-        where: { estimatedGdp: Not(IsNull()) },
-        order: { estimatedGdp: 'DESC' },
+        where: { estimated_gdp: Not(IsNull()) },
+        order: { estimated_gdp: 'DESC' },
         take: 5,
       });
 
@@ -272,8 +272,8 @@ export class CountriesService {
       let yPosition = 240;
       
       topCountries.forEach((country, index) => {
-        const gdpFormatted = country.estimatedGdp 
-          ? `$${country.estimatedGdp.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+        const gdpFormatted = country.estimated_gdp 
+          ? `$${country.estimated_gdp.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
           : 'N/A';
         
         ctx.fillText(
@@ -299,6 +299,5 @@ export class CountriesService {
       this.logger.error('Error generating summary image:', error);
     }
   }
-
 
 }
