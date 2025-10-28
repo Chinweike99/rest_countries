@@ -1,0 +1,46 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+@Entity('countries')
+export class Country {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  name: string;
+
+  @Column({ nullable: true })
+  capital: string;
+
+  @Column({ nullable: true })
+  region: string;
+
+  @Column('bigint')
+  population: number;
+
+  @Column({ name: 'currency_code', nullable: true })
+  currencyCode: string;
+
+  @Column({ name: 'exchange_rate', type: 'decimal', precision: 15, scale: 6, nullable: true })
+  exchangeRate: number;
+
+  @Column({ name: 'estimated_gdp', type: 'decimal', precision: 20, scale: 2, nullable: true })
+  estimatedGdp: number;
+
+  @Column({ name: 'flag_url', nullable: true })
+  flagUrl: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @Column({ name: 'last_refreshed_at', type: 'timestamp' })
+  lastRefreshedAt: Date;
+}
