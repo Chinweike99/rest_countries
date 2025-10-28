@@ -1,92 +1,6 @@
-// import { Module } from '@nestjs/common';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { ConfigModule, ConfigService } from '@nestjs/config';
-// import { HttpModule } from '@nestjs/axios';
-
-// import { CountriesModule } from './countries/countries.module';
-// import { StatusController } from './status/status.controller';
-
-// @Module({
-//   imports: [
-//     ConfigModule.forRoot({
-//       isGlobal: true,
-//     }),
-//     // TypeOrmModule.forRootAsync({
-//     //   imports: [ConfigModule],
-//     //   useFactory: (configService: ConfigService) => ({
-        
-
-//     //     type: 'mysql',
-//     //     host: configService.get('DB_HOST', 'localhost'),
-//     //     port: parseInt(configService.get('DB_PORT', '3306')),
-//     //     username: configService.get('DB_USERNAME', 'root'),
-//     //     password: configService.get('DB_PASSWORD', ''),
-//     //     database: configService.get('DB_NAME', 'country_api'),
-//     //     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-//     //     synchronize: configService.get('DB_SYNC', true),
-//     //   }),
-//     //   inject: [ConfigService],
-//     // }),
-
-//     TypeOrmModule.forRootAsync({
-//   imports: [ConfigModule],
-//   useFactory: (configService: ConfigService) => {
-//     const databaseUrl = configService.get('DATABASE_URL');
-    
-//     console.log('DATABASE_URL:', databaseUrl ? 'Found' : 'Not found');
-    
-//     return {
-//       type: 'mysql',
-//       url: databaseUrl,
-//       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-//       synchronize: false,
-//     };
-//   },
-//   inject: [ConfigService],
-// }),
-
-// //   TypeOrmModule.forRootAsync({
-// //   imports: [ConfigModule],
-// //   useFactory: (configService: ConfigService) => {
-// //     // Add this logging
-// //     console.log('DB_HOST:', configService.get('DB_HOST'));
-// //     console.log('DB_PORT:', configService.get('DB_PORT'));
-// //     console.log('DB_USERNAME:', configService.get('DB_USERNAME'));
-// //     console.log('DB_NAME:', configService.get('DB_NAME'));
-// //     console.log('All env vars:', process.env.DB_HOST, process.env.DB_PORT);
-    
-// //     return {
-// //       type: 'mysql',
-// //       host: configService.get('DB_HOST', 'localhost'),
-// //       port: parseInt(configService.get('DB_PORT', '3306')),
-// //       username: configService.get('DB_USERNAME', 'root'),
-// //       password: configService.get('DB_PASSWORD', ''),
-// //       database: configService.get('DB_NAME', 'country_api'),
-// //       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-// //       synchronize: configService.get('DB_SYNC', 'false') === 'true',
-// //     };
-// //   },
-// //   inject: [ConfigService],
-// // }),
-
-//     HttpModule.registerAsync({
-//       useFactory: () => ({
-//         timeout: 10000,
-//         maxRedirects: 5,
-//       }),
-//     }),
-//     CountriesModule,
-//   ],
-//   controllers: [StatusController],
-// })
-// export class AppModule {}
-
-
-
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 
 import { CountriesModule } from './countries/countries.module';
@@ -97,22 +11,47 @@ import { StatusController } from './status/status.controller';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: (configService: ConfigService) => ({
+        
+
+    //     type: 'mysql',
+    //     host: configService.get('DB_HOST', 'localhost'),
+    //     port: parseInt(configService.get('DB_PORT', '3306')),
+    //     username: configService.get('DB_USERNAME', 'root'),
+    //     password: configService.get('DB_PASSWORD', ''),
+    //     database: configService.get('DB_NAME', 'country_api'),
+    //     entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //     synchronize: configService.get('DB_SYNC', true),
+    //   }),
+    //   inject: [ConfigService],
+    // }),
+
+
+  TypeOrmModule.forRootAsync({
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => {
+    // Add this logging
+    console.log('DB_HOST:', configService.get('DB_HOST'));
+    console.log('DB_PORT:', configService.get('DB_PORT'));
+    console.log('DB_USERNAME:', configService.get('DB_USERNAME'));
+    console.log('DB_NAME:', configService.get('DB_NAME'));
+    console.log('All env vars:', process.env.DB_HOST, process.env.DB_PORT);
     
-    TypeOrmModule.forRootAsync({
-      useFactory: () => {
-        // Use process.env directly instead of ConfigService
-        const databaseUrl = process.env.DATABASE_URL;
-        
-        console.log('DATABASE_URL:', databaseUrl ? 'Found' : 'Not found');
-        
-        return {
-          type: 'mysql',
-          url: databaseUrl,
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: false,
-        };
-      },
-    }),
+    return {
+      type: 'mysql',
+      host: configService.get('DB_HOST', 'localhost'),
+      port: parseInt(configService.get('DB_PORT', '3306')),
+      username: configService.get('DB_USERNAME', 'root'),
+      password: configService.get('DB_PASSWORD', ''),
+      database: configService.get('DB_NAME', 'country_api'),
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: configService.get('DB_SYNC', 'false') === 'true',
+    };
+  },
+  inject: [ConfigService],
+}),
 
     HttpModule.registerAsync({
       useFactory: () => ({
