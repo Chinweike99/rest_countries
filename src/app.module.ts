@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { CountriesModule } from './countries/countries.module';
 import { StatusController } from './status/status.controller';
@@ -45,9 +47,13 @@ import { StatusController } from './status/status.controller';
       port: parseInt(configService.get('DB_PORT', '3306')),
       username: configService.get('DB_USERNAME', 'root'),
       password: configService.get('DB_PASSWORD', ''),
-      database: configService.get('DB_NAME', 'country_api'),
+      database: configService.get('DB_NAME', 'defaultdb'),
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: configService.get('DB_SYNC', 'false') === 'true',
+      ssl: {
+            ca: fs.readFileSync(path.join(__dirname, '../ca-certificate.pem')).toString(),
+            rejectUnauthorized: true,
+          }
     };
   },
   inject: [ConfigService],
