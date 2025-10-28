@@ -49,7 +49,7 @@ import { StatusController } from './status/status.controller';
       password: configService.get('DB_PASSWORD', ''),
       database: configService.get('DB_NAME', 'defaultdb'),
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: configService.get('DB_SYNC', 'false') === 'true',
+      synchronize: configService.get('DB_SYNC', 'true'),
       // ssl: {
       //       ca: fs.readFileSync(path.join(__dirname, '../ca-certificate.pem')).toString(),
       //       rejectUnauthorized: true,
