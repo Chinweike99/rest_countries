@@ -142,7 +142,7 @@ export class CountriesService {
     };
 
     if(currency){
-        where.currencyCode = currency;
+        where.currency_code = currency;
     };
 
     const order: any = {};
@@ -155,10 +155,10 @@ export class CountriesService {
           order.name = 'DESC';
           break;
         case 'gdp_asc':
-          order.estimatedGdp = 'ASC';
+          order.estimated_gdp = 'ASC';
           break;
         case 'gdp_desc':
-          order.estimatedGdp = 'DESC';
+          order.estimated_gdp = 'DESC';
           break;
         case 'population_asc':
           order.population = 'ASC';
