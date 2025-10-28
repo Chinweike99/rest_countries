@@ -28,17 +28,8 @@ export class CountriesController {
     return this.countriesService.findAll(query);
   }
 
-  @Get(':name')
-  async findOne(@Param('name') name: string) {
-    return this.countriesService.findOne(name);
-  }
 
-  @Delete(':name')
-  async remove(@Param('name') name: string) {
-    return this.countriesService.remove(name);
-  }
-
-  @Get('image')
+    @Get('image')
   async getImage(@Res() res: Response) {
     try {
       const imageBuffer = await this.countriesService.getSummaryImage();
@@ -58,4 +49,15 @@ export class CountriesController {
       throw error;
     }
   }
+
+  @Get(':name')
+  async findOne(@Param('name') name: string) {
+    return this.countriesService.findOne(name);
+  }
+
+  @Delete(':name')
+  async remove(@Param('name') name: string) {
+    return this.countriesService.remove(name);
+  }
+
 }
